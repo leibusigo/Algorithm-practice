@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算法</title>
+    <style>
+      form {
+        display: flex;
+        align-items: center;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>输入格式:数字+英文逗号连接</h2>
+    <form action="">
+      <input type="text" />
+      <button>开始</button>
+    </form>
+    <script>
+      const button = document.getElementsByTagName("button")[0];
+      const input = document.getElementsByTagName("input")[0];
+      button.onclick = function (e) {
+        // 阻止默认时间
+        e.preventDefault();
+        const arrayStr = input.value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        // 输出在控制台
+        // console.log(findOdd(array));
+        console.log(findTwiceodd(array));
+      };
+
+      /*
+      题目：找出一串数中出现奇数次的元素
+      (1)只有一个奇数次元素
+      (2)有2个奇数次元素(不相等)
+      */
+
+      // (1)解法：根据异或(^)的基本性质
+
+      // 时间复杂度O(N)，空间复杂度O(1)
+      function findOdd(array) {
+        // 声明一个变量接第一个元素
+        let eor = array[0];
+        // 遍历数组将所有值异或，因为只有一个元素出现了奇数次，
+        // 其它项都异或成0了，最后的结果就是要找的元素
+        for (let i = 1; i < array.length; i++) {
+          eor ^= array[i];
+        }
+        return eor;
+      }
+
+      // (2)解法：有两个不一样的奇数次元素(a,b)，(eor)异或完数组
+      // 中所有元素后为(a^b),这时两个元素二进制至少有一位不一样，
+      // 即(a^b)的值至少有一位为1，提取出那一位(n)，将(n)与数组中每
+      // 个数进行(&)，只对(n & cur == 0)的数直接进行异或，得到
+      // 的值即为(a or b),再把这个值与(eor)进行异或，则得到另一个数
+
+      // 时间复杂度O(N),空间复杂度O(1)
+      function findTwiceodd(array) {
+        // 与(1)同样，先把数组所有数异或，得到(a^b)
+        let eor = 0;
+        for (let i = 0; i < array.length; i++) {
+          eor ^= array[i];
+        }
+        // 核心代码:(~)代表取反，下方算式会
+        // 得到该数二进制最右边一位1，其它位均为0
+        let rightOne = eor & (~eor + 1);
+
+        let eor2 = 0;
+        // 所要寻找元素(a,b)的最右边一位不同找到为(rightOne)
+        // 遍历数组，取出与(rightOne)按位与为0的数进行异或
+        // 即可得到(a or b)
+        array.forEach((value) => {
+          if ((rightOne & value) === 0) eor2 ^= value;
+        });
+        // 将eor2与eor异或即可等到另一个数
+        eor ^= eor2;
+
+        return [eor, eor2];
+      }
+    </script>
+  </body>
+</html>

@@ -19,7 +19,7 @@
     <h2>输入格式:数字+英文逗号连接</h2>
     <form action="">
       <input type="text" />
-      <button>快速排序</button>
+      <button>开始</button>
     </form>
     <script>
       const button = document.getElementsByTagName("button")[0];
@@ -27,12 +27,12 @@
       button.onclick = function (e) {
         // 阻止默认时间
         e.preventDefault();
-        // const arrayStr = input.value.split(",");
-        // let array = [];
-        // // 将字符串类型转换为数字类型
-        // for (const num of arrayStr) array.push(parseInt(num));
-        // // 输出在控制台
-        // console.log(quickSort(array));
+        const arrayStr = input.value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        // 输出在控制台
+        console.log();
       };
     </script>
   </body>

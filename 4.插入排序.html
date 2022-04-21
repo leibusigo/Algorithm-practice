@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算法</title>
+    <style>
+      form {
+        display: flex;
+        align-items: center;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>输入格式:数字+英文逗号连接</h2>
+    <form action="">
+      <input type="text" />
+      <button>开始</button>
+    </form>
+    <script>
+      const button = document.getElementsByTagName("button")[0];
+      const input = document.getElementsByTagName("input")[0];
+      button.onclick = function (e) {
+        // 阻止默认时间
+        e.preventDefault();
+        const arrayStr = input.value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        // 输出在控制台
+        console.log(insertionSort(array));
+      };
+
+      /*
+      原理：
+      插入排序是指在待排序的元素中，假设前面n-1(其中n>=2)个数已经是排好顺序的，
+      现将第n个数插到前面已经排好的序列中，然后找到合适自己的位置，使得插入第
+      n个数的这个序列也是排好顺序的。按照此法对所有元素进行插入，直到整个序列
+      排为有序的过程，称为插入排序。
+      */
+      // 时间复杂度O(N^2),空间复杂度O(1)
+      function insertionSort(array) {
+        if (array === null || array.length < 2) return;
+        for (let i = 1; i < array.length; i++) {
+          for (let j = i - 1; j >= 0 && array[j] > array[j + 1]; j--) {
+            swap(array, j, j + 1);
+          }
+        }
+        return array;
+      }
+
+      function swap(array, i, j) {
+        // let temp = array[i];
+        // array[i] = array[j];
+        // array[j] = temp;
+        // 用异或的方法(i,j要不一样)
+        array[i] = array[i] ^ array[j];
+        array[j] = array[i] ^ array[j];
+        array[i] = array[i] ^ array[j];
+      }
+    </script>
+  </body>
+</html>

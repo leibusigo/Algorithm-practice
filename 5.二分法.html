@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算法</title>
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+      }
+      input {
+        margin-top: 10px;
+      }
+      button {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>输入格式:数字+英文逗号连接，请输入有序数组</h2>
+    <form action="">
+      <input type="text" placeholder="请输入有序数组" />
+      <input type="text" placeholder="请输入要找的数" />
+      <button>开始</button>
+    </form>
+    <script>
+      const button = document.getElementsByTagName("button")[0];
+      const input = document.getElementsByTagName("input");
+      button.onclick = function (e) {
+        // 阻止默认时间
+        e.preventDefault();
+        const arrayStr = input[0].value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        let val = parseInt(input[1].value);
+        const result = Bisection(array, val, 0, array.length - 1);
+        // 输出在控制台
+        console.log(result);
+      };
+
+      /*
+      原理：针对有序数组中判断某个数是否存在的问题，
+      先找到数组的中间索引，若要找的值大于该索引，
+      在前半部分继续上述操作，反之亦然。
+      */
+      //输入一个数，找到它在数组中的索引，若不存在，则返回-1
+      // 时间复杂度O(logN)，空间复杂度O(1)
+      const Bisection = (array, value, indexLeft, indexRight) => {
+        // 当数组长为1时，即做索引等于有索引，判断是否有想要值，有就返回索引，没有返回-1
+        if (indexLeft === indexRight)
+          return array[indexLeft] === value ? indexLeft : -1;
+        // 当数组长为2时，判断值是否为左索引或右索引，是的话返回索引值，没有返回-1
+        if (indexRight - indexLeft === 1) {
+          if (value === array[indexLeft]) return indexLeft;
+          else if (value === array[indexRight]) return indexRight;
+          else return -1;
+        }
+        // 小数与0的按位或操作，即为向下取整
+        const middle = ((indexRight - indexLeft) / 2) | 0;
+        // 当中值大于value，让前半部分继续进行迭代
+        if (array[middle] > value)
+          return Bisection(array, value, indexLeft, indexRight - middle - 1);
+        // 当中值等于value，返回中值索引，即为要找值
+        if (array[middle] === value) return middle;
+        // 当中值小于value，让后半部分继续进行迭代
+        if (array[middle] < value)
+          return Bisection(array, value, indexLeft + middle + 1, indexRight);
+      };
+    </script>
+  </body>
+</html>

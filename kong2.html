@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算法</title>
+    <style>
+      form {
+        display: flex;
+        align-items: center;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>输入格式:数字+英文逗号连接</h2>
+    <form action="">
+      <input type="text" />
+      <button>开始</button>
+    </form>
+    <script>
+      const button = document.getElementsByTagName("button")[0];
+      const input = document.getElementsByTagName("input")[0];
+      button.onclick = function (e) {
+        // 阻止默认时间
+        e.preventDefault();
+        const arrayStr = input.value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        // 输出在控制台
+        console.log();
+      };
+    </script>
+  </body>
+</html>
