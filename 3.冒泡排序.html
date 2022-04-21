@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算法</title>
+    <style>
+      form {
+        display: flex;
+        align-items: center;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>输入格式:数字+英文逗号连接</h2>
+    <form action="">
+      <input type="text" />
+      <button>冒泡排序</button>
+    </form>
+    <script>
+      const button = document.getElementsByTagName("button")[0];
+      const input = document.getElementsByTagName("input")[0];
+      button.onclick = function (e) {
+        // 阻止默认时间
+        e.preventDefault();
+        const arrayStr = input.value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        // 输出在控制台
+        console.log(bubbleSort2(array));
+      };
+      /*
+      原理:
+      (1)比较相邻的元素。如果第一个比第二个大，就交换他们两个。 
+      (2)对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对。
+      在这一点，最后的元素应该会是最大的数。 
+      (3)针对所有的元素重复以上的步骤，除了最后一个。 
+      (4)持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
+      */
+      //时间复杂度O(n^2),空间复杂度O(1)
+      //方法1
+      function bubbleSort1(array) {
+        // 找到数组最后一个元素，每次循环去掉最后一个排序好的元素
+        for (let i = array.length - 1; i > 0; i--) {
+          // 对小于i的数组进行遍历
+          for (let j = 0; j < i; j++) {
+            // 调整相邻元素顺序，将最大元素冒泡到数组最后面
+            if (array[j] > array[j + 1]) swap(array, j, j + 1);
+          }
+        }
+        return array;
+      }
+
+      // 方法二:使用迭代
+      function bubbleSort2(array) {
+        const sort = (array, max) => {
+          if (max == 0) return array;
+          for (let i = 0; i < max; i++) {
+            if (array[i] > array[i + 1]) {
+              swap(array, i, i + 1);
+            }
+          }
+          return sort(array, max - 1);
+        };
+        return sort(array, array.length - 1);
+      }
+
+      // 交换的方法
+      function swap(array, a, b) {
+        let temp = array[a];
+        array[a] = array[b];
+        array[b] = temp;
+      }
+    </script>
+  </body>
+</html>

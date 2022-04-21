@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算法</title>
+    <style>
+      form {
+        display: flex;
+        align-items: center;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>输入格式:数字+英文逗号连接</h2>
+    <form action="">
+      <input type="text" />
+      <button>选择排序</button>
+    </form>
+    <script>
+      const button = document.getElementsByTagName("button")[0];
+      const input = document.getElementsByTagName("input")[0];
+      button.onclick = function (e) {
+        // 阻止默认时间
+        e.preventDefault();
+        const arrayStr = input.value.split(",");
+        let array = [];
+        // 将字符串类型转换为数字类型
+        for (const num of arrayStr) array.push(parseInt(num));
+        // 输出在控制台
+        // 方法1
+        console.log(selectionSort1(array));
+        // 方法2
+        console.log(selectionSort2(array));
+        // selectionSort(array);
+      };
+
+      /*
+      原理：它的工作原理是每一次从待排序的数据元素中选出最小（或最大）的一个元素，
+      存放在序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，
+      然后放到已排序序列的末尾。以此类推，直到全部待排序的数据元素排完。
+      */
+      // 时间复杂度O(n^2),空间复杂度O(1)
+      // 方法1
+      function selectionSort1(array) {
+        // 遍历数组0~N-1,注意array.length-1,要不j超出索引了
+        for (let i = 0; i < array.length - 1; i++) {
+          // 设置无序数组第一位索引为最小数索引
+          let minIndex = i;
+          // 遍历数组i~N-1
+          for (let j = i + 1; j < array.length; j++) {
+            // 当数组后面索引比最小索引所对应的值小时，替换最小索引
+            minIndex = array[j] > array[minIndex] ? minIndex : j;
+          }
+          // 将最小索引值放在数组第一位
+          swap(array, minIndex, i);
+        }
+        return array;
+      }
+
+      // 方法2:使用迭代
+      function selectionSort2(array) {
+        // 排序方法(数组，开始位置索引)
+        const sort = (array, min) => {
+          // 当开始索引等于数组最后一个索引值时，结束迭代
+          if (min == array.length - 1) return array;
+          // 将本轮最小索引初始化为min
+          let firstIndex = min;
+          // 遍历改变初始索引值的数组，选出其中最小值
+          for (let i = array.length - 1; i > min; i--) {
+            firstIndex = array[firstIndex] < array[i] ? firstIndex : i;
+          }
+          // 将最小值放在最前面
+          swap(array, firstIndex, min);
+          // 进行迭代，每轮迭代最小索引值+1
+          return sort(array, min + 1);
+        };
+        // 设置初始min为0，即让for遍历全部数组
+        return sort(array, 0);
+      }
+
+      // 交换数组两个索引的位置
+      function swap(arr, a, b) {
+        let temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+      }
+    </script>
+  </body>
+</html>
