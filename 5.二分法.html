@@ -50,7 +50,7 @@
       //输入一个数，找到它在数组中的索引，若不存在，则返回-1
       // 时间复杂度O(logN)，空间复杂度O(1)
       const Bisection = (array, value, indexLeft, indexRight) => {
-        // 当数组长为1时，即做索引等于有索引，判断是否有想要值，有就返回索引，没有返回-1
+        // 当数组长为1时，即左索引等于有索引，判断是否有想要值，有就返回索引，没有返回-1
         if (indexLeft === indexRight)
           return array[indexLeft] === value ? indexLeft : -1;
         // 当数组长为2时，判断值是否为左索引或右索引，是的话返回索引值，没有返回-1
